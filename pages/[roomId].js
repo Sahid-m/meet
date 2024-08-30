@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { cloneDeep } from "lodash";
-import { useSocket } from "@/context/socket";
-import usePeer from "@/hooks/usePeer";
-import useMediaStream from "@/hooks/useMediaStream";
-import usePlayer from "@/hooks/usePlayer";
-import Player from "@/component/Player";
 import Bottom from "@/component/Bottom";
 import CopySection from "@/component/CopySection";
+import Player from "@/component/player";
+import { useSocket } from "@/context/socket";
+import useMediaStream from "@/hooks/useMediaStream";
+import usePeer from "@/hooks/usePeer";
+import usePlayer from "@/hooks/usePlayer";
 import styles from "@/styles/room.module.css";
+import { cloneDeep } from "lodash";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const Room = () => {
   const socket = useSocket();
@@ -22,10 +22,10 @@ const Room = () => {
     nonHighlightedPlayers,
     toggleAudio,
     toggleVideo,
-    leaveRoom
+    leaveRoom,
   } = usePlayer(myId, roomId, peer);
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (!socket || !peer || !stream) return;
@@ -47,8 +47,8 @@ const Room = () => {
 
         setUsers((prev) => ({
           ...prev,
-          [newUser]: call
-        }))
+          [newUser]: call,
+        }));
       });
     };
     socket.on("user-connected", handleUserConnected);
@@ -80,11 +80,11 @@ const Room = () => {
 
     const handleUserLeave = (userId) => {
       console.log(`user ${userId} is leaving the room`);
-      users[userId]?.close()
+      users[userId]?.close();
       const playersCopy = cloneDeep(players);
       delete playersCopy[userId];
       setPlayers(playersCopy);
-    }
+    };
     socket.on("user-toggle-audio", handleToggleAudio);
     socket.on("user-toggle-video", handleToggleVideo);
     socket.on("user-leave", handleUserLeave);
@@ -114,8 +114,8 @@ const Room = () => {
 
         setUsers((prev) => ({
           ...prev,
-          [callerId]: call
-        }))
+          [callerId]: call,
+        }));
       });
     });
   }, [peer, setPlayers, stream]);
@@ -159,7 +159,7 @@ const Room = () => {
           );
         })}
       </div>
-      <CopySection roomId={roomId}/>
+      <CopySection roomId={roomId} />
       <Bottom
         muted={playerHighlighted?.muted}
         playing={playerHighlighted?.playing}
