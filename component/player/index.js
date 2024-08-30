@@ -1,8 +1,8 @@
-import ReactPlayer from "react-player";
 import cx from "classnames";
 import { Mic, MicOff, UserSquare2 } from "lucide-react";
+import ReactPlayer from "react-player";
 
-import styles from "@/component/Player/index.module.css";
+import styles from "@/component/player/index.module.css";
 
 const Player = (props) => {
   const { url, muted, playing, isActive } = props;
@@ -12,8 +12,7 @@ const Player = (props) => {
         [styles.notActive]: !isActive,
         [styles.active]: isActive,
         [styles.notPlaying]: !playing,
-      })}
-    >
+      })}>
       {playing ? (
         <ReactPlayer
           url={url}
